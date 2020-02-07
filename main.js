@@ -76,7 +76,7 @@ class Midi extends utils.Adapter {
                         });
                         adapter.setObjectNotExists("channel" + channel + ".note." + noteNameFromMidiNumber(note), {
                             type:"state",
-                            common:{name:"Channel " + channel + " note " + note, type:"number", role:"value", read:true,write:false},
+                            common:{name:"Channel " + channel + " note " + note, type:"boolean", role:"value", read:true,write:false},
                             native:{}
                         });
                         adapter.setObjectNotExists("channel" + channel + ".cc." + note, {
@@ -113,9 +113,11 @@ class Midi extends utils.Adapter {
                     native:{}
                 });
                 //set value of noteoff
+                adapter.log.debug("set value of channel" + msg.channel + ".noteoff." + noteNameFromMidiNumber(msg.note)+": "+msg.velocity.toString());
                 adapter.setStateAsync("channel" + msg.channel + ".noteoff." + noteNameFromMidiNumber(msg.note), msg.velocity.toString(), true);
                 //set boolean for note to false
-                adapter.setStateAsync("channel" + msg.channel + ".note." + noteNameFromMidiNumber(msg.note), false, true);
+                adapter.log.debug("set boolean for note to false");
+                //adapter.setStateAsync("channel" + msg.channel + ".note." + noteNameFromMidiNumber(msg.note), false, true);
             }); 
                 
             midiIn.on("noteon", function (msg) {
@@ -124,15 +126,18 @@ class Midi extends utils.Adapter {
                     type:"state",
                     common:{name:"Channel " + msg.channel + " noteon " + noteNameFromMidiNumber(msg.note), type:"number", role:"value", read:true,write:false},
                     native:{}
-                });adapter.setObjectNotExists("channel" + msg.channel + ".note." + noteNameFromMidiNumber(msg.note), {
-                    type:"state",
-                    common:{name:"Channel " + msg.channel + " note " + noteNameFromMidiNumber(msg.note), type:"boolean", role:"value", read:true,write:false},
-                    native:{}
                 });
+                // adapter.setObjectNotExists("channel" + msg.channel + ".note." + noteNameFromMidiNumber(msg.note), {
+                //     type:"state",
+                //     common:{name:"Channel " + msg.channel + " note " + noteNameFromMidiNumber(msg.note), type:"boolean", role:"value", read:true,write:false},
+                //     native:{}
+                // });
                 //set value of noteon
+                adapter.log.debug("set value of channel" + msg.channel + ".noteon." + noteNameFromMidiNumber(msg.note)+": "+msg.velocity.toString());
                 adapter.setStateAsync("channel" + msg.channel + ".noteon." + noteNameFromMidiNumber(msg.note), msg.velocity.toString(), true);
                 //set boolean for note to true
-                adapter.setStateAsync("channel" + msg.channel + ".note." + noteNameFromMidiNumber(msg.note), true, true);
+                adapter.log.debug("set boolean for note to true");
+                //adapter.setStateAsync("channel" + msg.channel + ".note." + noteNameFromMidiNumber(msg.note), true, true);
             });
                 
             midiIn.on("poly aftertouch", function (msg) {
