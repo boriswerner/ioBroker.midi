@@ -1,0 +1,76 @@
+{
+    "common": {
+        "name": "midi",
+        "version": "0.0.1",
+        "news": {
+            "0.0.1": {
+                "en": "initial release",
+                "de": "Erstveröffentlichung",
+                "ru": "Начальная версия",
+                "pt": "lançamento inicial",
+                "nl": "Eerste uitgave",
+                "fr": "Première version",
+                "it": "Versione iniziale",
+                "es": "Versión inicial",
+                "pl": "Pierwsze wydanie",
+                "zh-cn": "首次出版"
+            }
+        },
+        "title": "Midi",
+        "titleLang": {
+            "en": "Midi",
+            "de": "Midi",
+            "ru": "миди",
+            "pt": "Midi",
+            "nl": "Midi",
+            "fr": "Midi",
+            "it": "Midi",
+            "es": "Midi",
+            "pl": "Midi",
+            "zh-cn": "迷笛"
+        },
+        "desc": {
+            "en": "The adapter processes midi input and output using easymidi",
+            "de": "Der Adapter verarbeitet MIDI-Ein- und -Ausgänge mit easymidi",
+            "ru": "Адаптер обрабатывает миди-ввод и вывод с помощью easymidi",
+            "pt": "O adaptador processa entrada e saída midi usando o easymidi",
+            "nl": "De adapter verwerkt midi-invoer en -uitvoer met behulp van easymidi",
+            "fr": "L'adaptateur traite les entrées et sorties midi en utilisant easymidi",
+            "it": "L'adattatore elabora input e output midi usando easymidi",
+            "es": "El adaptador procesa entrada y salida midi usando easymidi",
+            "pl": "Adapter przetwarza dane wejściowe i wyjściowe midi za pomocą easymidi",
+            "zh-cn": "适配器使用easymidi处理midi输入和输出"
+        },
+        "authors": [
+            "Boris Werner <iobroker@boriswerner.eu>"
+        ],
+        "keywords": [
+            "midi"
+        ],
+        "license": "MIT",
+        "platform": "Javascript/Node.js",
+        "main": "main.js",
+        "icon": "midi.png",
+        "enabled": true,
+        "extIcon": "https://raw.githubusercontent.com/boriswerner/ioBroker.midi/master/admin/midi.png",
+        "readme": "https://github.com/boriswerner/ioBroker.midi/blob/master/README.md",
+        "loglevel": "info",
+        "mode": "daemon",
+        "type": "protocols",
+        "compact": true,
+        "connectionType": "local",
+        "dataSource": "push",
+        "materialize": true,
+        "dependencies": [
+            {
+                "js-controller": ">=1.4.2"
+            }
+        ]
+    },
+    "native": {
+        "option1": true,
+        "option2": "42"
+    },
+    "objects": [],
+    "instanceObjects": []
+}
