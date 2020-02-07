@@ -44,65 +44,67 @@ class Midi extends utils.Adapter {
 
         adapter.log.info("Available MIDI Input Devices: " + midi.getInputs());
         adapter.log.info("config midiin: " + adapter.config.midiin);
-        adapter.log.info("config usb: " + adapter.config.usb);
         
         //adapter.subscribeStates("*"); //not used for input
 
         //establish connection to midi input device
         try {
-            midiIn = new midi.Input(adapter.config.midiin);
+            if(adapter.config.midiin != "__insert midi input device from log here __") {
+                midiIn = new midi.Input(adapter.config.midiin);
+            }
         } catch(e) {
             adapter.log.error(e.message);
         }
+         
         
         //check if connection was successful
         if(typeof midiIn != "undefined") {
             adapter.setState("info.connection", true, true);
             adapter.log.info("Connected to " + adapter.config.midiin);
-
-            //create all states in advance if configured
-            if(adapter.config.createAllObjects) {
-                for(let channel = 0; channel < 16; channel++) {
-                    for(let note = 0; note < 128; note++) {
-                        adapter.setObjectNotExists("channel" + channel + ".noteoff." + noteNameFromMidiNumber(note), {
-                            type:"state",
-                            common:{name:"Channel " + channel + " noteoff " + noteNameFromMidiNumber(note), type:"number", role:"value", read:true,write:false},
-                            native:{}
-                        });
-                        adapter.setObjectNotExists("channel" + channel + ".noteon." + noteNameFromMidiNumber(note), {
-                            type:"state",
-                            common:{name:"Channel " + channel + " noteon " + noteNameFromMidiNumber(note), type:"number", role:"value", read:true,write:false},
-                            native:{}
-                        });
-                        adapter.setObjectNotExists("channel" + channel + ".note." + noteNameFromMidiNumber(note), {
-                            type:"state",
-                            common:{name:"Channel " + channel + " note " + note, type:"boolean", role:"value", read:true,write:false},
-                            native:{}
-                        });
-                        adapter.setObjectNotExists("channel" + channel + ".cc." + note, {
-                            type:"state",
-                            common:{name:"Channel " + channel + " cc " + note, type:"number", role:"value", read:true,write:false},
-                            native:{}
-                        });
-                        adapter.setObjectNotExists("channel" + channel + ".polyaftertouch." + note, {
-                            type:"state",
-                            common:{name:"Channel " + channel + " polyaftertouch " + note, type:"number", role:"value", read:true,write:false},
-                            native:{}
-                        });
-                        adapter.setObjectNotExists("channel" + channel + ".program." + note, {
-                            type:"state",
-                            common:{name:"Channel " + channel + " program " + note, type:"boolean", role:"value", read:true,write:false},
-                            native:{}
-                        });
-                    }
-                }
+            // removed with version 0.0.3
+            // //create all states in advance if configured
+            // if(adapter.config.createAllObjects) {
+            //     for(let channel = 0; channel < 16; channel++) {
+            //         for(let note = 0; note < 128; note++) {
+            //             adapter.setObjectNotExists("channel" + channel + ".noteoff." + noteNameFromMidiNumber(note), {
+            //                 type:"state",
+            //                 common:{name:"Channel " + channel + " noteoff " + noteNameFromMidiNumber(note), type:"number", role:"value", read:true,write:false},
+            //                 native:{}
+            //             });
+            //             adapter.setObjectNotExists("channel" + channel + ".noteon." + noteNameFromMidiNumber(note), {
+            //                 type:"state",
+            //                 common:{name:"Channel " + channel + " noteon " + noteNameFromMidiNumber(note), type:"number", role:"value", read:true,write:false},
+            //                 native:{}
+            //             });
+            //             adapter.setObjectNotExists("channel" + channel + ".note." + noteNameFromMidiNumber(note), {
+            //                 type:"state",
+            //                 common:{name:"Channel " + channel + " note " + note, type:"boolean", role:"value", read:true,write:false},
+            //                 native:{}
+            //             });
+            //             adapter.setObjectNotExists("channel" + channel + ".cc." + note, {
+            //                 type:"state",
+            //                 common:{name:"Channel " + channel + " cc " + note, type:"number", role:"value", read:true,write:false},
+            //                 native:{}
+            //             });
+            //             adapter.setObjectNotExists("channel" + channel + ".polyaftertouch." + note, {
+            //                 type:"state",
+            //                 common:{name:"Channel " + channel + " polyaftertouch " + note, type:"number", role:"value", read:true,write:false},
+            //                 native:{}
+            //             });
+            //             adapter.setObjectNotExists("channel" + channel + ".program." + note, {
+            //                 type:"state",
+            //                 common:{name:"Channel " + channel + " program " + note, type:"boolean", role:"value", read:true,write:false},
+            //                 native:{}
+            //             });
+            //         }
+            //     }
                         
-                adapter.setObjectNotExists("position", {
-                    type:"state",
-                    common:{name:"Position", type:"number", role:"value", read:true,write:false},
-                    native:{}
-                });
-            }
+            //     adapter.setObjectNotExists("position", {
+            //         type:"state",
+            //         common:{name:"Position", type:"number", role:"value", read:true,write:false},
+            //         native:{}
+            //     });
+            // }
         
             //midi input handlers
             midiIn.on("noteoff", function (msg) {
@@ -116,28 +118,29 @@ class Midi extends utils.Adapter {
                 adapter.log.debug("set value of channel" + msg.channel + ".noteoff." + noteNameFromMidiNumber(msg.note)+": "+msg.velocity.toString());
                 adapter.setStateAsync("channel" + msg.channel + ".noteoff." + noteNameFromMidiNumber(msg.note), msg.velocity.toString(), true);
                 //set boolean for note to false
-                adapter.log.debug("set boolean for note to false");
-                //adapter.setStateAsync("channel" + msg.channel + ".note." + noteNameFromMidiNumber(msg.note), false, true);
+                adapter.log.debug("set boolean for note " + noteNameFromMidiNumber(msg.note)+": false");
+                adapter.setStateAsync("channel" + msg.channel + ".note." + noteNameFromMidiNumber(msg.note), false, true);
             }); 
                 
             midiIn.on("noteon", function (msg) {
                 adapter.log.debug("midi < noteon "+ noteNameFromMidiNumber(msg.note) +" "+ msg.velocity +" "+ msg.channel);
+                //set value of noteon
                 adapter.setObjectNotExists("channel" + msg.channel + ".noteon." + noteNameFromMidiNumber(msg.note), {
                     type:"state",
                     common:{name:"Channel " + msg.channel + " noteon " + noteNameFromMidiNumber(msg.note), type:"number", role:"value", read:true,write:false},
                     native:{}
                 });
-                // adapter.setObjectNotExists("channel" + msg.channel + ".note." + noteNameFromMidiNumber(msg.note), {
-                //     type:"state",
-                //     common:{name:"Channel " + msg.channel + " note " + noteNameFromMidiNumber(msg.note), type:"boolean", role:"value", read:true,write:false},
-                //     native:{}
-                // });
-                //set value of noteon
                 adapter.log.debug("set value of channel" + msg.channel + ".noteon." + noteNameFromMidiNumber(msg.note)+": "+msg.velocity.toString());
                 adapter.setStateAsync("channel" + msg.channel + ".noteon." + noteNameFromMidiNumber(msg.note), msg.velocity.toString(), true);
+                
                 //set boolean for note to true
-                adapter.log.debug("set boolean for note to true");
-                //adapter.setStateAsync("channel" + msg.channel + ".note." + noteNameFromMidiNumber(msg.note), true, true);
+                adapter.setObjectNotExists("channel" + msg.channel + ".note." + noteNameFromMidiNumber(msg.note), {
+                    type:"state",
+                    common:{name:"Channel " + msg.channel + " note " + noteNameFromMidiNumber(msg.note), type:"boolean", role:"value", read:true,write:false},
+                    native:{}
+                });
+                adapter.log.debug("set boolean for note " + noteNameFromMidiNumber(msg.note)+": true");
+                adapter.setStateAsync("channel" + msg.channel + ".note." + noteNameFromMidiNumber(msg.note), true, true);
             });
                 
             midiIn.on("poly aftertouch", function (msg) {
@@ -216,7 +219,12 @@ class Midi extends utils.Adapter {
             });
         } else { // connection failed
             adapter.setState("info.connection", false, true);
-            adapter.log.error("Connection failed");
+            if(adapter.config.midiin != "__insert midi input device from log here __") {
+                adapter.log.error("Connection failed");
+            } else {
+                adapter.log.info("Please configure midi input device in settings");
+            }
+            
         }  
     }
 
@@ -271,17 +279,18 @@ class Midi extends utils.Adapter {
      * Using this method requires "common.message" property to be set to true in io-package.json
      * @param {ioBroker.Message} obj
      */
-    onMessage(obj) {
-        if (typeof obj === "object" && obj.message) {
-            if (obj.command === "listMidiInputDevices") {
-                const inputs = midi.getInputs();
-                this.log.info("List of Midi Inputs: " + inputs);
+    // onMessage(obj) {
+    //     this.log.debug("Message received: " + obj.message);
+    //     if (typeof obj === "object" && obj.message) {
+    //         if (obj.command === "listMidiInputDevices") {
+    //             const inputs = midi.getInputs();
+    //             this.log.info("List of Midi Inputs: " + inputs);
 
-                // Send response in callback
-                if (obj.callback) this.sendTo(obj.from, obj.command, inputs, obj.callback);
-            }
-        }
-    }
+    //             // Send response in callback
+    //             if (obj.callback) this.sendTo(obj.from, obj.command, inputs, obj.callback);
+    //         }
+    //     }
+    // }
 }
 
 // @ts-ignore parent is a valid property on module

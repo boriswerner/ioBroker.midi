@@ -1,8 +1,17 @@
 {
     "common": {
         "name": "midi",
-        "version": "0.0.2",
+        "version": "0.0.3",
         "news": {
+            
+            "0.0.3": {
+                "en": "fixed velocity issue with noteon/noteoff with boolean note",
+                "de": "Fehler bei Setzen der velocity im noteon/noteoff state aufgrund des note states"
+            },
+            "0.0.2": {
+                "en": "implemented basic midi input",
+                "de": "Basisfunktionen des midi inputs implementiert"
+            },
             "0.0.1": {
                 "en": "initial release",
                 "de": "Erstveröffentlichung",
@@ -72,9 +81,7 @@
         "subscribe": "messagebox"
     },
     "native": {
-        "midiin": "Numark ORBIT:Numark ORBIT MIDI 1 20:0",
-        "usb": "",
-        "createAllObjects": false
+        "midiin": "__insert midi input device from log here __"
     },
     "objects": [],
     "instanceObjects": [{

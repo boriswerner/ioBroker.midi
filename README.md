@@ -37,9 +37,13 @@ not working:
 - position
   - value of 0-16384
 
+Some of the states are interdependent, in the following example you can see the interaction of a key with polyaftertouch.
+The screenshot was done after the button was pressed (noteon velocity was 9, current aftertouch 92, the note C2 shows true, which indicates that the button is still pressed)
+![Example midi input](example_midi_in.png)
+After releasing the button the note went to false, the aftertouch to 0. noteon velocity is still 9 (as no new noteon was triggered). Noteoff velocity was not triggered from this key.
 
 ## Setup
-In instance configuration insert the device id in the Midi In text field. The "MIDI input device" is supposed to be a dropdown with the available devices but currently not working correctly.
+In instance configuration insert the device id in the Midi In text field.
 On adapter startup the log will show an info:
 `(29332) Available MIDI Input Devices: Midi Through:Midi Through Port-0 14:0,Samson Graphite M25:Samson Graphite M25 MIDI 1 20:0`
 This line represents two devices:
@@ -48,9 +52,10 @@ This line represents two devices:
 
 The whole string has to be pasted to the configuration.
 
-The "Create all objects in advance" checkbox should only be used with caution as it creates about 12000 states (all notes on all channels). If not set (default) only the objectas/states will be created, that already appeared.
-
 ## Changelog
+
+### 0.0.3
+* (Boris Werner) fixed velocity issue with noteon/noteoff with boolean note, removed (not working) device dropdown
 
 ### 0.0.2
 * (Boris Werner) implemented basic midi input
