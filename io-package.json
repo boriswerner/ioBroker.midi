@@ -1,7 +1,7 @@
 {
     "common": {
         "name": "midi",
-        "version": "0.0.1",
+        "version": "0.0.2",
         "news": {
             "0.0.1": {
                 "en": "initial release",
@@ -63,14 +63,31 @@
         "materialize": true,
         "dependencies": [
             {
-                "js-controller": ">=1.4.2"
+                "js-controller": ">=1.4.2",
+                "easymidi": ">=1.0.3"
             }
-        ]
+        ],
+        "message": true,
+        "messagebox": true,
+        "subscribe": "messagebox"
     },
     "native": {
-        "option1": true,
-        "option2": "42"
+        "midiin": "Numark ORBIT:Numark ORBIT MIDI 1 20:0",
+        "usb": "",
+        "createAllObjects": false
     },
     "objects": [],
-    "instanceObjects": []
+    "instanceObjects": [{
+        "_id": "info.connection",
+        "type": "state",
+        "common": {
+            "role": "indicator.connected",
+            "name": "If communication with midi input device works",
+            "type": "boolean",
+            "read": true,
+            "write": false,
+            "def": false
+        },
+        "native": {}
+    }]
 }

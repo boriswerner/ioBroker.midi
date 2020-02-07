@@ -14,75 +14,48 @@
 
 The adapter processes midi input and output using easymidi
 
-## Developer manual
-This section is intended for the developer. It can be deleted later
+## Current Status
+working:
+- midi input
+not working: 
+- midi output
+- device discovery in admin console
 
-### Getting started
+### States
+- noteon
+  - value represents the velocity of the noteon [0-127]
+- noteoff
+  - value represents the velocity of the noteoff [0-127]
+- note
+  - set to true when the noteon was seen for the note and set to false when the noteoff was seen for the note
+- control change
+  - value represents the value of the command (most of the times set to 127 when cc button is pushed, false when released) [0-127]
+- poly aftertouch
+  - value represents the pressure of the aftertouch [0-127]
+- program change
+  - boolean
+- position
+  - value of 0-16384
 
-You are almost done, only a few steps left:
-1. Create a new repository on GitHub with the name `ioBroker.midi`
-1. Initialize the current folder as a new git repository:  
-    ```bash
-    git init
-    git add .
-    git commit -m "Initial commit"
-    ```
-1. Link your local repository with the one on GitHub:  
-    ```bash
-    git remote add origin https://github.com/boriswerner/ioBroker.midi
-    ```
 
-1. Push all files to the GitHub repo:  
-    ```bash
-    git push origin master
-    ```
-1. Head over to [main.js](main.js) and start programming!
+## Setup
+In instance configuration insert the device id in the Midi In text field. The "MIDI input device" is supposed to be a dropdown with the available devices but currently not working correctly.
+On adapter startup the log will show an info:
+`(29332) Available MIDI Input Devices: Midi Through:Midi Through Port-0 14:0,Samson Graphite M25:Samson Graphite M25 MIDI 1 20:0`
+This line represents two devices:
+- `Midi Through:Midi Through Port-0 14:0`
+- `Samson Graphite M25:Samson Graphite M25 MIDI 1 20:0`
+The whole string has to be pasted to the configuration.
 
-### Scripts in `package.json`
-Several npm scripts are predefined for your convenience. You can run them using `npm run <scriptname>`
-| Script name | Description                                              |
-|-------------|----------------------------------------------------------|
-| `test:js`   | Executes the tests you defined in `*.test.js` files.     |
-| `test:package`    | Ensures your `package.json` and `io-package.json` are valid. |
-| `test` | Performs a minimal test run on package files and your tests. |
-| `lint` | Runs `ESLint` to check your code for formatting errors and potential bugs. |
-
-### Writing tests
-When done right, testing code is invaluable, because it gives you the 
-confidence to change your code while knowing exactly if and when 
-something breaks. A good read on the topic of test-driven development 
-is https://hackernoon.com/introduction-to-test-driven-development-tdd-61a13bc92d92. 
-Although writing tests before the code might seem strange at first, but it has very 
-clear upsides.
-
-The template provides you with basic tests for the adapter startup and package files.
-It is recommended that you add your own tests into the mix.
-
-### Publishing the adapter
-To get your adapter released in ioBroker, please refer to the documentation 
-of [ioBroker.repositories](https://github.com/ioBroker/ioBroker.repositories#requirements-for-adapter-to-get-added-to-the-latest-repository).
-
-### Test the adapter manually on a local ioBroker installation
-In order to install the adapter locally without publishing, the following steps are recommended:
-1. Create a tarball from your dev directory:  
-    ```bash
-    npm pack
-    ```
-1. Upload the resulting file to your ioBroker host
-1. Install it locally (The paths are different on Windows):
-    ```bash
-    cd /opt/iobroker
-    npm i /path/to/tarball.tgz
-    ```
-
-For later updates, the above procedure is not necessary. Just do the following:
-1. Overwrite the changed files in the adapter directory (`/opt/iobroker/node_modules/iobroker.midi`)
-1. Execute `iobroker upload midi` on the ioBroker host
+The "Create all objects in advance" checkbox should only be used with caution as it creates about 12000 states (all notes on all channels). If not set (default) only the objectas/states will be created, that already appeared.
 
 ## Changelog
 
+### 0.0.2
+* (Boris Werner) implemented basic midi input
+
 ### 0.0.1
-* (Boris Werner) initial release
+* (Boris Werner) initial release from template
 
 ## License
 MIT License
