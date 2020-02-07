@@ -113,9 +113,9 @@ class Midi extends utils.Adapter {
                     native:{}
                 });
                 //set value of noteoff
-                adapter.setState("channel" + msg.channel + ".noteoff." + noteNameFromMidiNumber(msg.note), msg.velocity.toString(), true);
+                adapter.setStateAsync("channel" + msg.channel + ".noteoff." + noteNameFromMidiNumber(msg.note), msg.velocity.toString(), true);
                 //set boolean for note to false
-                adapter.setState("channel" + msg.channel + ".note." + noteNameFromMidiNumber(msg.note), false, true);
+                adapter.setStateAsync("channel" + msg.channel + ".note." + noteNameFromMidiNumber(msg.note), false, true);
             }); 
                 
             midiIn.on("noteon", function (msg) {
@@ -130,9 +130,9 @@ class Midi extends utils.Adapter {
                     native:{}
                 });
                 //set value of noteon
-                adapter.setState("channel" + msg.channel + ".noteon." + noteNameFromMidiNumber(msg.note), msg.velocity.toString(), true);
+                adapter.setStateAsync("channel" + msg.channel + ".noteon." + noteNameFromMidiNumber(msg.note), msg.velocity.toString(), true);
                 //set boolean for note to true
-                adapter.setState("channel" + msg.channel + ".note." + noteNameFromMidiNumber(msg.note), true, true);
+                adapter.setStateAsync("channel" + msg.channel + ".note." + noteNameFromMidiNumber(msg.note), true, true);
             });
                 
             midiIn.on("poly aftertouch", function (msg) {
@@ -142,7 +142,7 @@ class Midi extends utils.Adapter {
                     common:{name:"Channel " + msg.channel + " polyaftertouch " + noteNameFromMidiNumber(msg.note), type:"number", role:"value", read:true,write:false},
                     native:{}
                 });
-                adapter.setState("channel" + msg.channel + ".polyaftertouch." + noteNameFromMidiNumber(msg.note), msg.pressure.toString(), true);
+                adapter.setStateAsync("channel" + msg.channel + ".polyaftertouch." + noteNameFromMidiNumber(msg.note), msg.pressure.toString(), true);
             });
                 
             midiIn.on("cc", function (msg) {
@@ -152,7 +152,7 @@ class Midi extends utils.Adapter {
                     common:{name:"Channel " + msg.channel + " cc " + msg.controller, type:"number", role:"value", read:true,write:false},
                     native:{}
                 });
-                adapter.setState("channel" + msg.channel + ".cc." + msg.controller, msg.value.toString(), true);
+                adapter.setStateAsync("channel" + msg.channel + ".cc." + msg.controller, msg.value.toString(), true);
             });
                 
             midiIn.on("program", function (msg) {
@@ -163,7 +163,7 @@ class Midi extends utils.Adapter {
                     common:{name:"Channel " + msg.channel + " program " + msg.number, type:"boolean", role:"value", read:true,write:false},
                     native:{}
                 });
-                adapter.setState("channel" + msg.channel + ".program." + msg.number, true, true);
+                adapter.setStateAsync("channel" + msg.channel + ".program." + msg.number, true, true);
             });
                 
             midiIn.on("position", function (msg) {
@@ -173,7 +173,7 @@ class Midi extends utils.Adapter {
                     common:{name:"Position", type:"number", role:"value", read:true,write:false},
                     native:{}
                 });
-                adapter.setState("position", msg.value.toString(), true);
+                adapter.setStateAsync("position", msg.value.toString(), true);
             });
 
             //ToDo: implement states

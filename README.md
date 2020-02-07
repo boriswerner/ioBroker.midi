@@ -45,6 +45,7 @@ On adapter startup the log will show an info:
 This line represents two devices:
 - `Midi Through:Midi Through Port-0 14:0`
 - `Samson Graphite M25:Samson Graphite M25 MIDI 1 20:0`
+
 The whole string has to be pasted to the configuration.
 
 The "Create all objects in advance" checkbox should only be used with caution as it creates about 12000 states (all notes on all channels). If not set (default) only the objectas/states will be created, that already appeared.
