@@ -17,7 +17,15 @@ systemDictionary = {
     },
     "midiin": {
         "en": "Midi input device",
-        "de": "Midi Eingabegeraet"
-    }
+        "de": "Midi-Eingabegerät",
+        "ru": "Миди устройство ввода",
+        "pt": "Dispositivo de entrada Midi",
+        "nl": "Midi-invoerapparaat",
+        "fr": "Périphérique d'entrée midi",
+        "it": "Dispositivo di input Midi",
+        "es": "Dispositivo de entrada midi",
+        "pl": "Urządzenie wejściowe Midi",
+        "zh-cn": "MIDI输入设备"
+      }
     
 };
