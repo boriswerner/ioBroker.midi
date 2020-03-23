@@ -12,14 +12,38 @@
 
 ## midi adapter for ioBroker
 
-The adapter processes midi input and output using easymidi
+The adapter processes midi input using easymidi.
 
 ## Current Status
 working:
 - midi input
 not working: 
-- midi output
+- midi output (could be implementedt with the same library)
 - device discovery in admin console
+
+## Example
+https://youtu.be/iHr_ertCmjE
+
+I use a midi controller (in the video: Numark Orbit) to control my hue / zigbee lights.
+This way you can make use of existing smart lighting for your next party instead of buying expensive light controllers and DMX enabled lights.
+Of course this can be used together with the iobroker artnet adapter (https://github.com/ioBroker/ioBroker.artnet) to even make more use of it.
+
+Currently I use the hue-extended adapter (https://github.com/Zefau/ioBroker.hue-extended) to control my hue lights. Make sure to disable the queueing in the instance configuration of the hue-adapter in order to not have a delay.
+
+Following a simple script (JS view of blockly script) to activate a hue light when a button is pressed and deactivate it when releasing:
+```
+on({id: 'midi.0.channel0.note.D-1', change: "ne"}, function (obj) {
+  var value = obj.state.val;
+  var oldValue = obj.oldState.val;
+  if (getState("midi.0.channel0.note.D-1").val == true) {
+    setState("hue-extended.0.lights.002-hue_bloom_esszimmer.action.on"/*Hue bloom Esszimmer - Switch light on / off*/, true);
+  }
+  if (getState("midi.0.channel0.note.D-1").val == false) {
+    setState("hue-extended.0.lights.002-hue_bloom_esszimmer.action.on"/*Hue bloom Esszimmer - Switch light on / off*/, false);
+  }
+});
+```
+Of course there can be many more things done, e.g. using aftertouch to control dimming time, velocity to control light intesity or color and much more.
 
 ### States
 - noteon
