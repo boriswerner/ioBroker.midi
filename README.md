@@ -78,6 +78,9 @@ The whole string has to be pasted to the configuration.
 
 ## Changelog
 
+### 0.0.4
+* (Boris Werner) refactored object creation
+
 ### 0.0.3
 * (Boris Werner) fixed velocity issue with noteon/noteoff with boolean note, removed (not working) device dropdown
 

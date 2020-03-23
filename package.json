@@ -1,7 +1,7 @@
 {
   "name": "iobroker.midi",
-  "version": "0.0.3",
-  "description": "The adapter processes midi input and output using easymidi",
+  "version": "0.0.4",
+  "description": "The adapter processes midi input using easymidi",
   "author": {
     "name": "Boris Werner",
     "email": "iobroker@boriswerner.eu"
