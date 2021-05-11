@@ -77,6 +77,7 @@ This line represents two devices:
 The whole string has to be pasted to the configuration.
 
 ## Changelog
+
 ### 0.0.4
 * (Boris Werner) refactored object creation
 
