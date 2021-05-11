@@ -77,7 +77,6 @@ This line represents two devices:
 The whole string has to be pasted to the configuration.
 
 ## Changelog
-
 ### 0.0.4
 * (Boris Werner) refactored object creation
 
@@ -93,7 +92,7 @@ The whole string has to be pasted to the configuration.
 ## License
 MIT License
 
-Copyright (c) 2020 Boris Werner <iobroker@boriswerner.eu>
+Copyright (c) 2021 Boris Werner <iobroker@boriswerner.eu>
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
